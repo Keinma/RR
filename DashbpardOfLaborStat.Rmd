@@ -1,0 +1,154 @@
+---
+title: "Dashboard of Labor statistic of Mongolia"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme: 
+      version: 4
+      bootswatch: cyborg
+---
+
+```{r setup, include=FALSE}
+thematic::thematic_rmd(font = "auto")
+library(flexdashboard)
+library(Hmisc)
+library(ggplot2)
+library(plotly)
+library(tidyverse)
+library(extrafont)
+library(gridExtra)
+library(ggthemes)
+library(RColorBrewer)
+library(gganimate)
+library(dygraphs)
+library(highcharter)
+library(forecast)
+library(readxl)
+library(hrbrthemes)
+library(xts)
+library(tidyquant)
+remotes::install_github("rstudio/bslib")
+# R markdown
+# # Multiple pages {data-icon= 'fontawesome.com' }
+# ## Column or Row {data-width=} or {data-height}, {.tabset} tabs in 1 chart 
+# ### New chart {fig.height=, fig.width=}
+# Data
+
+AverageSalary <- read_excel("C:/Users/enkhbileg.d/Downloads/DT_NSO_0400_021V1_-_2023-08-29_-_www.1212.mn.xlsx")
+EmploymentLevel <- read_excel("C:/Users/enkhbileg.d/Downloads/DT_NSO_0400_035V3_-_2023-08-29_-_www.1212.mn.xlsx")
+ClassificationOfEconomicActivies <- read_excel("C:/Users/enkhbileg.d/Downloads/DT_NSO_0400_035V7_-_2023-08-29_-_www.1212.mn.xlsx")
+
+AverageSalaryMale <- AverageSalary$Male
+AverageSalaryFemale <- AverageSalary$Female
+AverageSalaryDate <- AverageSalary$Date
+
+EmploymentLevelMale <- EmploymentLevel$Male
+EmploymentLevelFemale <- EmploymentLevel$Female
+EmploymentLevelDate <- EmploymentLevel$Date
+
+ClassificationOfEconomicActiviesMale <- ClassificationOfEconomicActivies$Male
+ClassificationOfEconomicActiviesFemale <- ClassificationOfEconomicActivies$Female
+ClassificationOfEconomicActiviesClass <- ClassificationOfEconomicActivies$Classification
+
+
+```
+
+# Average Salary
+
+Column 1 {.tabset}
+--------------------------------------------------
+### Female Average Salary
+```{r}
+p <- AverageSalary %>%
+  ggplot(aes(x = AverageSalaryDate, y = AverageSalaryFemale)) +
+  geom_area(fill="#fc3d03", alpha=0.1) +
+  geom_line(color="#fc3d03") +
+  geom_point(color="#fc3d03") +
+  ylab("Average salary of Female employees") +
+  xlab("Date") +
+  theme_ipsum() + ggtitle("Average salary of Female employees")
+    
+
+p <- ggplotly(p)
+p
+
+```
+### Male Average salary
+```{r}
+
+p1 <- AverageSalary %>%
+  ggplot(aes(x = AverageSalaryDate, y = AverageSalaryMale)) +
+  geom_area(fill="#075eb5", alpha=0.1) +
+  geom_line(color="#075eb5") +
+  geom_point(color="#075eb5") +
+  ylab("Average salary of Male employees") +
+  xlab("Date") +
+  theme_ipsum() + ggtitle("Average salary of Male employees")
+    
+
+p1 <- ggplotly(p1)
+p1
+
+```
+# Employment Level
+
+Column 1 {.tabset}
+--------------------------------------------------
+### Female Employment Level
+```{r}
+p2 <- EmploymentLevel %>%
+  ggplot(aes(x = EmploymentLevelDate, y = EmploymentLevelFemale)) +
+  geom_area(fill="#ff219f", alpha=0.1) +
+  geom_line(color="#ff219f") +
+  geom_point(color="#ff219f") +
+  ylab("Employment level of Female employees") +
+  xlab("Date") +
+  theme_ipsum() + ggtitle("Employment level of Female employees")
+    
+
+p2 <- ggplotly(p2)
+p2
+
+```
+### Male Average salary
+```{r}
+
+p3 <- EmploymentLevel %>%
+  ggplot(aes(x = EmploymentLevelDate, y = EmploymentLevelMale)) +
+  geom_area(fill="#ff2129", alpha=0.1) +
+  geom_line(color="#ff2129") +
+  geom_point(color="#ff2129") +
+  ylab("Employment level of Male employees") +
+  xlab("Date") +
+  theme_ipsum() + ggtitle("Employment level of Male employees")
+    
+
+p3 <- ggplotly(p3)
+p3
+
+```
+
+# Classification of Economic Activities
+
+## Column 1 {.active .tabset .tabset-fade .tabset-pills}
+
+### Female employees Classification of Economic Activities
+
+```{r}
+ClassificationOfEconomicActivies %>%
+  hchart(
+    "pie", hcaes(x = ClassificationOfEconomicActiviesClass, y = ClassificationOfEconomicActiviesFemale),
+    ggtitle("Female employees number Classification of Economic Activities"),
+    name = "Female employees number Classification of Economic Activities")
+
+```
+### Male employees Classification of Economic Activities
+
+```{r}
+ClassificationOfEconomicActivies %>%
+  hchart(
+    "pie", hcaes(x = ClassificationOfEconomicActiviesClass, y = ClassificationOfEconomicActiviesMale),
+    name = "Male employees number Classification of Economic Activities")
+
+```
