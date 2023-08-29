@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Dashboard of Labor statistic of Mongolia</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Dashboard of Labor statistic of Mongolia</h1>
+</header>
+<p>```{r setup, include=FALSE} thematic::thematic_rmd(font = “auto”)
+library(flexdashboard) library(Hmisc) library(ggplot2) library(plotly)
+library(tidyverse) library(extrafont) library(gridExtra)
+library(ggthemes) library(RColorBrewer) library(gganimate)
+library(dygraphs) library(highcharter) library(forecast) library(readxl)
+library(hrbrthemes) library(xts) library(tidyquant)
+remotes::install_github(“rstudio/bslib”) # R markdown # # Multiple pages
+{data-icon= ‘fontawesome.com’ } # ## Column or Row {data-width=} or
+{data-height}, {.tabset} tabs in 1 chart # ### New chart {fig.height=,
+fig.width=} # Data</p>
+<p>AverageSalary &lt;-
+read_excel(“C:/Users/enkhbileg.d/Downloads/DT_NSO_0400_021V1_-<em>2023-08-29</em>-<em>www.1212.mn.xlsx”)
+EmploymentLevel &lt;-
+read_excel(“C:/Users/enkhbileg.d/Downloads/DT_NSO_0400_035V3</em>-<em>2023-08-29</em>-<em>www.1212.mn.xlsx”)
+ClassificationOfEconomicActivies &lt;-
+read_excel(“C:/Users/enkhbileg.d/Downloads/DT_NSO_0400_035V7</em>-<em>2023-08-29</em>-_www.1212.mn.xlsx”)</p>
+<p>AverageSalaryMale &lt;- AverageSalary<span
+class="math inline"><em>M</em><em>a</em><em>l</em><em>e</em><em>A</em><em>v</em><em>e</em><em>r</em><em>a</em><em>g</em><em>e</em><em>S</em><em>a</em><em>l</em><em>a</em><em>r</em><em>y</em><em>F</em><em>e</em><em>m</em><em>a</em><em>l</em><em>e</em> &lt;  − <em>A</em><em>v</em><em>e</em><em>r</em><em>a</em><em>g</em><em>e</em><em>S</em><em>a</em><em>l</em><em>a</em><em>r</em><em>y</em></span>Female
+AverageSalaryDate &lt;- AverageSalary$Date</p>
+<p>EmploymentLevelMale &lt;- EmploymentLevel<span
+class="math inline"><em>M</em><em>a</em><em>l</em><em>e</em><em>E</em><em>m</em><em>p</em><em>l</em><em>o</em><em>y</em><em>m</em><em>e</em><em>n</em><em>t</em><em>L</em><em>e</em><em>v</em><em>e</em><em>l</em><em>F</em><em>e</em><em>m</em><em>a</em><em>l</em><em>e</em> &lt;  − <em>E</em><em>m</em><em>p</em><em>l</em><em>o</em><em>y</em><em>m</em><em>e</em><em>n</em><em>t</em><em>L</em><em>e</em><em>v</em><em>e</em><em>l</em></span>Female
+EmploymentLevelDate &lt;- EmploymentLevel$Date</p>
+<p>ClassificationOfEconomicActiviesMale &lt;-
+ClassificationOfEconomicActivies<span
+class="math inline"><em>M</em><em>a</em><em>l</em><em>e</em><em>C</em><em>l</em><em>a</em><em>s</em><em>s</em><em>i</em><em>f</em><em>i</em><em>c</em><em>a</em><em>t</em><em>i</em><em>o</em><em>n</em><em>O</em><em>f</em><em>E</em><em>c</em><em>o</em><em>n</em><em>o</em><em>m</em><em>i</em><em>c</em><em>A</em><em>c</em><em>t</em><em>i</em><em>v</em><em>i</em><em>e</em><em>s</em><em>F</em><em>e</em><em>m</em><em>a</em><em>l</em><em>e</em> &lt;  − <em>C</em><em>l</em><em>a</em><em>s</em><em>s</em><em>i</em><em>f</em><em>i</em><em>c</em><em>a</em><em>t</em><em>i</em><em>o</em><em>n</em><em>O</em><em>f</em><em>E</em><em>c</em><em>o</em><em>n</em><em>o</em><em>m</em><em>i</em><em>c</em><em>A</em><em>c</em><em>t</em><em>i</em><em>v</em><em>i</em><em>e</em><em>s</em></span>Female
+ClassificationOfEconomicActiviesClass &lt;-
+ClassificationOfEconomicActivies$Classification</p>
+<pre><code>
+# Average Salary
+
+Column 1 {.tabset}
+--------------------------------------------------
+### Female Average Salary
+```{r}
+p &lt;- AverageSalary %&gt;%
+  ggplot(aes(x = AverageSalaryDate, y = AverageSalaryFemale)) +
+  geom_area(fill=&quot;#fc3d03&quot;, alpha=0.1) +
+  geom_line(color=&quot;#fc3d03&quot;) +
+  geom_point(color=&quot;#fc3d03&quot;) +
+  ylab(&quot;Average salary of Female employees&quot;) +
+  xlab(&quot;Date&quot;) +
+  theme_ipsum() + ggtitle(&quot;Average salary of Female employees&quot;)
+    
+
+p &lt;- ggplotly(p)
+p
+</code></pre>
+<h3 id="male-average-salary">Male Average salary</h3>
+<pre class="{r}"><code>
+p1 &lt;- AverageSalary %&gt;%
+  ggplot(aes(x = AverageSalaryDate, y = AverageSalaryMale)) +
+  geom_area(fill=&quot;#075eb5&quot;, alpha=0.1) +
+  geom_line(color=&quot;#075eb5&quot;) +
+  geom_point(color=&quot;#075eb5&quot;) +
+  ylab(&quot;Average salary of Male employees&quot;) +
+  xlab(&quot;Date&quot;) +
+  theme_ipsum() + ggtitle(&quot;Average salary of Male employees&quot;)
+    
+
+p1 &lt;- ggplotly(p1)
+p1
+</code></pre>
+<h1 id="employment-level">Employment Level</h1>
+<h2 class="tabset" id="column-1">Column 1</h2>
+<h3 id="female-employment-level">Female Employment Level</h3>
+<pre class="{r}"><code>p2 &lt;- EmploymentLevel %&gt;%
+  ggplot(aes(x = EmploymentLevelDate, y = EmploymentLevelFemale)) +
+  geom_area(fill=&quot;#ff219f&quot;, alpha=0.1) +
+  geom_line(color=&quot;#ff219f&quot;) +
+  geom_point(color=&quot;#ff219f&quot;) +
+  ylab(&quot;Employment level of Female employees&quot;) +
+  xlab(&quot;Date&quot;) +
+  theme_ipsum() + ggtitle(&quot;Employment level of Female employees&quot;)
+    
+
+p2 &lt;- ggplotly(p2)
+p2
+</code></pre>
+<h3 id="male-average-salary-1">Male Average salary</h3>
+<pre class="{r}"><code>
+p3 &lt;- EmploymentLevel %&gt;%
+  ggplot(aes(x = EmploymentLevelDate, y = EmploymentLevelMale)) +
+  geom_area(fill=&quot;#ff2129&quot;, alpha=0.1) +
+  geom_line(color=&quot;#ff2129&quot;) +
+  geom_point(color=&quot;#ff2129&quot;) +
+  ylab(&quot;Employment level of Male employees&quot;) +
+  xlab(&quot;Date&quot;) +
+  theme_ipsum() + ggtitle(&quot;Employment level of Male employees&quot;)
+    
+
+p3 &lt;- ggplotly(p3)
+p3
+</code></pre>
+<h1 id="classification-of-economic-activities">Classification of
+Economic Activities</h1>
+<h2 class="active tabset tabset-fade tabset-pills"
+id="column-1-1">Column 1</h2>
+<h3 id="female-employees-classification-of-economic-activities">Female
+employees Classification of Economic Activities</h3>
+<pre class="{r}"><code>ClassificationOfEconomicActivies %&gt;%
+  hchart(
+    &quot;pie&quot;, hcaes(x = ClassificationOfEconomicActiviesClass, y = ClassificationOfEconomicActiviesFemale),
+    ggtitle(&quot;Female employees number Classification of Economic Activities&quot;),
+    name = &quot;Female employees number Classification of Economic Activities&quot;)
+</code></pre>
+<h3 id="male-employees-classification-of-economic-activities">Male
+employees Classification of Economic Activities</h3>
+<pre class="{r}"><code>ClassificationOfEconomicActivies %&gt;%
+  hchart(
+    &quot;pie&quot;, hcaes(x = ClassificationOfEconomicActiviesClass, y = ClassificationOfEconomicActiviesMale),
+    name = &quot;Male employees number Classification of Economic Activities&quot;)
+</code></pre>
+</body>
+</html>
